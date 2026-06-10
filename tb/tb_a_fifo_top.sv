@@ -1,0 +1,83 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 08.06.2026 13:37:58
+// Design Name: 
+// Module Name: tb_a_fifo_top
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module tb_a_fifo_top;
+
+    parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH);
+    
+    reg  wr_clk, rd_clk;
+    reg  wr_rst_n, rd_rst_n;
+    reg  wr_inc, rd_inc;
+    reg  [D_WIDTH - 1 : 0] wr_data;
+    
+    wire [D_WIDTH - 1 : 0] rd_data;
+    wire full, empty;
+    
+    a_fifo_top #(.D_WIDTH(D_WIDTH), .A_WIDTH(A_WIDTH))
+    dut(
+        .wr_clk(wr_clk),
+        .rd_clk(rd_clk),
+        .wr_rst_n(wr_rst_n),
+        .rd_rst_n(rd_rst_n),
+        .wr_inc(wr_inc),
+        .rd_inc(rd_inc),
+        .wr_data(wr_data),
+        .rd_data(rd_data),
+        .full(full),
+        .empty(empty)
+    );
+    
+    // 100 MHz wr_clk
+    always #5 wr_clk = !wr_clk;
+    // 50 MHz rd_clk
+    always #10 rd_clk = !rd_clk;
+    
+    initial begin
+        wr_clk = 1;
+        rd_clk = 1;
+    end
+    
+    initial begin
+        wr_rst_n = 1'b0; rd_rst_n = 1'b0;
+    #10 wr_rst_n = 1'b1; rd_rst_n = 1'b1;    
+    end
+    
+    // WRITE 
+    initial begin
+        wr_inc = 1'b0;
+        rd_inc = 1'b0;
+    #20 wr_inc = 1'b1;
+    @(posedge wr_clk)
+    begin
+        for (int i = 0; i < 32; i++)
+        begin
+            wr_data = $random;
+            #10;
+        end
+    end
+        wr_inc = 1'b0;
+    #20 rd_inc = 1'b1;
+
+    #360 $finish;
+    end
+
+endmodule
