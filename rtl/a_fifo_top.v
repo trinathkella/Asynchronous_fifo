@@ -38,6 +38,8 @@ module a_fifo_top #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
     fifo_memory #(.D_WIDTH(D_WIDTH), .A_WIDTH(A_WIDTH))
     fifo_mem(
         .wr_clk(wr_clk),
+        .wr_inc(wr_inc),
+        .full(full),
         .wr_addr(wr_addr),
         .rd_addr(rd_addr),
         .wr_data(wr_data),
@@ -62,9 +64,9 @@ module a_fifo_top #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
     
     wr_ptr_and_full #(.A_WIDTH(A_WIDTH))
     write_ptr_and_full(
-        .wr_clk(rd_clk),
-        .wr_rst_n(rd_rst_n),
-        .wr_inc(rd_inc),
+        .wr_clk(wr_clk),
+        .wr_rst_n(wr_rst_n),
+        .wr_inc(wr_inc),
         .gry_rd_ptr_sync(gry_rd_ptr_sync),
         .gry_wr_ptr(gry_wr_ptr),
         .bin_wr_addr(wr_addr),
