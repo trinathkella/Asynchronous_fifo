@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+/*THis module implements an asynchronous FIFO */
 
 module a_fifo_top #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
 (
