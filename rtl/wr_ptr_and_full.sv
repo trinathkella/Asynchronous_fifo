@@ -47,6 +47,6 @@ module wr_ptr_and_full #(parameter A_WIDTH = 5)
     
     assign gry_wr_ptr  = bin_addr_reg ^ (bin_addr_reg >> 1);
     assign bin_wr_addr = bin_addr_reg;
-    assign full        = ((gry_wr_ptr[5] != gry_rd_ptr_sync[5]) && (gry_wr_ptr[4:0] == gry_rd_ptr_sync[4:0]));
+    assign full        = (gry_wr_ptr == {~gry_rd_ptr_sync[A_WIDTH : A_WIDTH - 1], gry_rd_ptr_sync[A_WIDTH - 2 : 0]});
  
 endmodule
