@@ -47,6 +47,6 @@ module rd_ptr_and_empty #(parameter A_WIDTH = 5)
     
     assign gry_rd_ptr  =  bin_addr_reg ^ (bin_addr_reg >> 1);
     assign bin_rd_addr =  bin_addr_reg;
-    assign empty       =  (gry_rd_ptr == gry_wr_ptr_sync);
+    assign empty       =  (gry_wr_ptr_sync == gry_rd_ptr);
 
 endmodule
