@@ -25,8 +25,8 @@ module fifo_memory #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
     input                    wr_clk,
     input                    wr_inc,
     input                    full,
-    input  [A_WIDTH : 0]     wr_addr,
-    input  [A_WIDTH : 0]     rd_addr,
+    input  [A_WIDTH - 1 : 0] wr_addr,
+    input  [A_WIDTH - 1 : 0] rd_addr,
     input  [D_WIDTH - 1 : 0] wr_data,
     output [D_WIDTH - 1 : 0] rd_data
 );

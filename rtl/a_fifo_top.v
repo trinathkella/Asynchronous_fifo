@@ -49,17 +49,17 @@ module a_fifo_top #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
     
     two_stage_synchronizer #(.A_WIDTH(A_WIDTH))
     w2r_sync(
-        .clk(wr_clk),
-        .rst_n(wr_rst_n),
-        .i_ptr(gry_wr_ptr),
+        .clk(rd_clk),       // Destination Clock
+        .rst_n(rd_rst_n),   // Destination reset
+        .i_ptr(gry_wr_ptr), // Source Pointer to reach the destination
         .o_ptr(gry_wr_ptr_sync)
     );
     
     two_stage_synchronizer #(.A_WIDTH(A_WIDTH))
     r2w_sync(
-        .clk(rd_clk),
-        .rst_n(rd_rst_n),
-        .i_ptr(gry_rd_ptr),
+        .clk(wr_clk),       // Destination Clock
+        .rst_n(wr_rst_n),   // Destination reset
+        .i_ptr(gry_rd_ptr), // Source Pointer to reach the destination
         .o_ptr(gry_rd_ptr_sync)
     );
     
