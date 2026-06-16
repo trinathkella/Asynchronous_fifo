@@ -1,24 +1,4 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 08.06.2026 13:37:58
-// Design Name: 
-// Module Name: tb_a_fifo_top
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module tb_a_fifo_top;
     parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH);
@@ -58,7 +38,6 @@ module tb_a_fifo_top;
     end
     
     initial begin
-        t1();
     end
     
 endmodule

@@ -1,20 +1,19 @@
-task t1;
-    wr_rst_n = 1'b0; rd_rst_n = 1'b0;
-    #10 wr_rst_n = 1'b1; rd_rst_n = 1'b1;    
-    // WRITE 
-    wr_inc = 1'b0;
-    rd_inc = 1'b0;
-    #20 wr_inc = 1'b1;
-    @(posedge wr_clk)
-    begin
-        for (int i = 0; i < 32; i++)
-        begin
-            wr_data = $random;
-            #10;
-        end
-    end
-    wr_inc = 1'b0;
-    #20 rd_inc = 1'b1;
+// task t1;
+//     
+// endtask
 
-    #360 $finish;
+task wr_rst_behav_test;
+    wr_rst_n = 1'b0;
+    @(posedge wr_clk);
+    wr_rst_n = 1'b1;
+endtask
+
+task rd_rst_behav_test;
+    rd_rst_n = 1'b0;
+    @(posedge rd_clk);
+    rd_rst_n = 1'b1;
+endtask
+
+task writing_to_fifo;
+    
 endtask
