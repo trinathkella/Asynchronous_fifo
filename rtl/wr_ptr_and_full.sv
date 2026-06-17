@@ -26,9 +26,9 @@ module wr_ptr_and_full #(parameter A_WIDTH = 5)
     output logic               full
 );
 
-   reg [A_WIDTH : 0] b_wr_ptr_nxt;
-   reg [A_WIDTH : 0] g_wr_ptr_nxt;
-   wire full_w;
+   logic [A_WIDTH : 0] b_wr_ptr_nxt;
+   logic [A_WIDTH : 0] g_wr_ptr_nxt;
+   logic full_w;
 
    assign b_wr_ptr_nxt = bin_wr_addr + (wr_en & !full);
    assign g_wr_ptr_nxt = b_wr_ptr_nxt ^ (b_wr_ptr_nxt >> 1);

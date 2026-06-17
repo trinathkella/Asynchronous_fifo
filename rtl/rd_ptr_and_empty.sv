@@ -27,9 +27,9 @@ module rd_ptr_and_empty #(parameter A_WIDTH = 5)
     output logic               empty
 );
 
-    reg [A_WIDTH : 0] b_rd_ptr_nxt;
-    reg [A_WIDTH : 0] g_rd_ptr_nxt;
-    wire empty_w;
+    logic [A_WIDTH : 0] b_rd_ptr_nxt;
+    logic [A_WIDTH : 0] g_rd_ptr_nxt;
+    logic empty_w;
 
     assign b_rd_ptr_nxt = bin_rd_addr + (rd_en & !empty);
     assign g_rd_ptr_nxt = b_rd_ptr_nxt ^ (b_rd_ptr_nxt >> 1);
