@@ -2,28 +2,30 @@
 
 /*THis module implements an asynchronous FIFO */
 
-module a_fifo_top #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
+module a_fifo_top #(parameter D_WIDTH = 32, DEPTH = 32)
 (
     input                    wr_clk, rd_clk,
     input                    wr_rst_n, rd_rst_n,
-    input                    wr_inc, rd_inc,
+    input                    wr_en, rd_en,
     input  [D_WIDTH - 1 : 0] wr_data,
     output [D_WIDTH - 1 : 0] rd_data,
     output                   full,
     output                   empty
 );
 
-    wire [A_WIDTH - 1 : 0] wr_addr, rd_addr;
+    localparam A_WIDTH = $clog2(DEPTH);
+
+    wire [A_WIDTH : 0]     wr_addr, rd_addr;
     wire [A_WIDTH : 0]     gry_wr_ptr, gry_rd_ptr;   
     wire [A_WIDTH : 0]     gry_wr_ptr_sync, gry_rd_ptr_sync;
     
     fifo_memory #(.D_WIDTH(D_WIDTH), .A_WIDTH(A_WIDTH))
     fifo_mem(
         .wr_clk(wr_clk),
-        .wr_inc(wr_inc),
+        .wr_en(wr_en),
         .full(full),
-        .wr_addr(wr_addr),
-        .rd_addr(rd_addr),
+        .wr_addr(wr_addr[A_WIDTH - 1 : 0]),
+        .rd_addr(rd_addr[A_WIDTH - 1 : 0]),
         .wr_data(wr_data),
         .rd_data(rd_data)
     );
@@ -48,7 +50,7 @@ module a_fifo_top #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
     write_ptr_and_full(
         .wr_clk(wr_clk),
         .wr_rst_n(wr_rst_n),
-        .wr_inc(wr_inc),
+        .wr_en(wr_en),
         .gry_rd_ptr_sync(gry_rd_ptr_sync),
         .gry_wr_ptr(gry_wr_ptr),
         .bin_wr_addr(wr_addr),
@@ -59,7 +61,7 @@ module a_fifo_top #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
     read_ptr_and_empty(
         .rd_clk(rd_clk),
         .rd_rst_n(rd_rst_n),
-        .rd_inc(rd_inc),
+        .rd_en(rd_en),
         .gry_wr_ptr_sync(gry_wr_ptr_sync),
         .gry_rd_ptr(gry_rd_ptr),
         .bin_rd_addr(rd_addr),

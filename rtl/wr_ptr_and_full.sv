@@ -17,13 +17,13 @@
 
 module wr_ptr_and_full #(parameter A_WIDTH = 5)
 (
-    input                          wr_clk,
-    input                          wr_rst_n,
-    input                          wr_en,
-    input        [A_WIDTH : 0]     gry_rd_ptr_sync,
-    output logic [A_WIDTH : 0]     gry_wr_ptr,
-    output logic [A_WIDTH - 1 : 0] bin_wr_addr,
-    output logic                   full
+    input                      wr_clk,
+    input                      wr_rst_n,
+    input                      wr_en,
+    input        [A_WIDTH : 0] gry_rd_ptr_sync,
+    output logic [A_WIDTH : 0] gry_wr_ptr,
+    output logic [A_WIDTH : 0] bin_wr_addr,
+    output logic               full
 );
 
    reg [A_WIDTH : 0] b_wr_ptr_nxt;
@@ -43,7 +43,7 @@ module wr_ptr_and_full #(parameter A_WIDTH = 5)
     else 
     begin
         gry_wr_ptr  <= g_wr_ptr_nxt;
-        bin_wr_addr <= b_wr_ptr_nxt[A_WIDTH - 1 : 0];
+        bin_wr_addr <= b_wr_ptr_nxt;
     end
    end
 
@@ -54,7 +54,6 @@ module wr_ptr_and_full #(parameter A_WIDTH = 5)
     else
         full <= full_w;
    end
-
 
    assign full_w = (g_wr_ptr_nxt == {~gry_rd_ptr_sync[A_WIDTH : A_WIDTH - 1], gry_rd_ptr_sync[A_WIDTH - 2 : 0]});
  

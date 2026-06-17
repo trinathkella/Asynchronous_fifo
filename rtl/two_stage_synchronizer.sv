@@ -2,8 +2,8 @@
 
 module two_stage_synchronizer #(parameter A_WIDTH = 5)
 (
-    input  clk,
-    input  rst_n,
+    input                clk,
+    input                rst_n,
     input  [A_WIDTH : 0] i_ptr,
     output [A_WIDTH : 0] o_ptr
 );

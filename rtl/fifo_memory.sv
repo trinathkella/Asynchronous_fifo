@@ -3,7 +3,7 @@
 module fifo_memory #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
 (
     input                    wr_clk,
-    input                    wr_inc,
+    input                    wr_en,
     input                    full,
     input  [A_WIDTH - 1 : 0] wr_addr,
     input  [A_WIDTH - 1 : 0] rd_addr,
@@ -16,7 +16,7 @@ module fifo_memory #(parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH))
     
     always_ff @(posedge wr_clk)
     begin
-        if(wr_inc && !full)
+        if(wr_en && !full)
             mem[wr_addr]    <=  wr_data;
     end
     
