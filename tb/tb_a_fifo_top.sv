@@ -1,11 +1,11 @@
 `timescale 1ns / 1ps
 
 module tb_a_fifo_top;
-    parameter D_WIDTH = 32, A_WIDTH = $clog2(D_WIDTH);
+    parameter D_WIDTH = 32, DEPTH = 32;
     
     reg  wr_clk, rd_clk;
     reg  wr_rst_n, rd_rst_n;
-    reg  wr_inc, rd_inc;
+    reg  wr_en, rd_en;
     reg  [D_WIDTH - 1 : 0] wr_data;
     
     wire [D_WIDTH - 1 : 0] rd_data;
@@ -13,14 +13,14 @@ module tb_a_fifo_top;
     
     `include "tasks.vh"
     
-    a_fifo_top #(.D_WIDTH(D_WIDTH), .A_WIDTH(A_WIDTH))
+    a_fifo_top #(.D_WIDTH(D_WIDTH), .DEPTH(DEPTH))
     dut(
         .wr_clk(wr_clk),
         .rd_clk(rd_clk),
         .wr_rst_n(wr_rst_n),
         .rd_rst_n(rd_rst_n),
-        .wr_inc(wr_inc),
-        .rd_inc(rd_inc),
+        .wr_en(wr_en),
+        .rd_en(rd_en),
         .wr_data(wr_data),
         .rd_data(rd_data),
         .full(full),
@@ -38,6 +38,11 @@ module tb_a_fifo_top;
     end
     
     initial begin
+      /* wr_rst_behav_test();
+#10   rd_rst_behav_test();
+#10   writing_to_fifo();
+#10   reading_from_fifo(); */
+      t1();
     end
     
 endmodule
