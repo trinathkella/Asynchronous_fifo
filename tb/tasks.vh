@@ -35,18 +35,18 @@ task t1;
     // WRITE
     wr_en = 1'b0;
     rd_en = 1'b0;
-    #20 wr_en = 1'b1;
+    #20 wr_en = 1'b1; //rd_en = 1'b1;
     @(posedge wr_clk)
     begin
         for (int i = 0; i < 32; i++)
         begin
-            wr_data = $random;
+            wr_data = i;
             #10;
         end
     end
     wr_en = 1'b0;
-    #20 rd_en = 1'b1;
+    #20 rd_en = 1'b0;
 
-    #360 $finish;
+    #700 $finish;
 
 endtask
