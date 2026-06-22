@@ -1,52 +1,29 @@
-// task t1;
-//     
-// endtask
 
-/* task wr_rst_behav_test;
-    wr_rst_n = 1'b0;
-    @(posedge wr_clk);
-    wr_rst_n = 1'b1;
+task rst(input w_rst, input r_rst);
+    wr_rst_n = w_rst;
+    rd_rst_n = r_rst;
 endtask
 
-task rd_rst_behav_test;
-    rd_rst_n = 1'b0;
-    @(posedge rd_clk);
-    rd_rst_n = 1'b1;
+task one_write(input [D_WIDTH - 1 : 0] d);
+    wr_en   = 1'b1;
+    wr_data = d;
 endtask
 
-task writing_to_fifo;
-   wr_en = 1'b1;
-   @(posedge wr_clk)
-   begin
-      for(int i = 0; i < 32; i++)
-         begin
-            wr_data = $random;
-         end
-   end
+task one_read();
+    rd_en = 1'b1;
 endtask
-    
-task reading_from_fifo;
-   rd_en = 1'b1;
-endtask */
 
-task t1;
-    wr_rst_n = 1'b0; rd_rst_n = 1'b0;
-    #10 wr_rst_n = 1'b1; rd_rst_n = 1'b1;
-    // WRITE
-    wr_en = 1'b0;
-    rd_en = 1'b0;
-    #20 wr_en = 1'b1; //rd_en = 1'b1;
-    @(posedge wr_clk)
+task write_full;
+    wr_en = 1'b1;
+    for(int i = 0; i < DEPTH; i++)
     begin
-        for (int i = 0; i < 32; i++)
+        @(posedge wr_clk)
         begin
             wr_data = i;
-            #10;
-        end
+        end 
     end
-    wr_en = 1'b0;
-    #20 rd_en = 1'b0;
+endtask
 
-    #700 $finish;
-
+task read_empty;
+    rd_en = 1'b1;
 endtask

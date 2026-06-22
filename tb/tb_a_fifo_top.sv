@@ -38,11 +38,27 @@ module tb_a_fifo_top;
     end
     
     initial begin
-      /* wr_rst_behav_test();
-#10   rd_rst_behav_test();
-#10   writing_to_fifo();
-#10   reading_from_fifo(); */
-      t1();
+        rst(0,0);
+        @(posedge wr_clk);
+        rst(1,0);
+        @(posedge rd_clk);
+        rst(1,1);
+
+        @(posedge wr_clk);
+        one_write(32'hA5A5A5A5);
+        @(posedge rd_clk);
+        one_read();
+
+        @(posedge wr_clk);
+        write_full();
+        
+        @(posedge rd_clk)
+        begin
+            if(full)
+                read_empty();
+        end
+        
+        $finish();
     end
     
 endmodule
