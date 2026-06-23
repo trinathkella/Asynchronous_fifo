@@ -38,27 +38,8 @@ module tb_a_fifo_top;
     end
     
     initial begin
-        rst(0,0);
-        @(posedge wr_clk);
-        rst(1,0);
-        @(posedge rd_clk);
-        rst(1,1);
-
-        @(posedge wr_clk);
-        one_write(32'hA5A5A5A5);
-        @(posedge rd_clk);
-        one_read();
-
-        @(posedge wr_clk);
-        write_full();
-        
-        @(posedge rd_clk)
-        begin
-            if(full)
-                read_empty();
-        end
-        
-        $finish();
+        drive_reset();
+        check_reset();
     end
     
 endmodule

@@ -1,29 +1,23 @@
-
-task rst(input w_rst, input r_rst);
-    wr_rst_n = w_rst;
-    rd_rst_n = r_rst;
+task drive_reset;
+     wr_rst_n = 1'b0;rd_rst_n = 1'b0;
+     repeat(3) @(posedge wr_clk);
+     wr_rst_n = 1'b1;
+     repeat(3) @(posedge rd_clk);
+     rd_rst_n = 1'b1;
 endtask
 
-task one_write(input [D_WIDTH - 1 : 0] d);
-    wr_en   = 1'b1;
-    wr_data = d;
-endtask
-
-task one_read();
-    rd_en = 1'b1;
-endtask
-
-task write_full;
-    wr_en = 1'b1;
-    for(int i = 0; i < DEPTH; i++)
+task check_reset;
+    if(empty !== 1)
     begin
-        @(posedge wr_clk)
-        begin
-            wr_data = i;
-        end 
+        $error("[%0t] RESET CHECK FAILED : empty should be 1", $time);
     end
-endtask
-
-task read_empty;
-    rd_en = 1'b1;
+    else
+        $display("[%0t] RESET CHECK PASSED", $time);
+    
+    if(full !== 0)
+    begin
+        $error("[%0t] RESET CHECK FAILED : full should be 0", $time);
+    end
+    else
+        $display("[%0t] RESET CHECK PASSED", $time);
 endtask
