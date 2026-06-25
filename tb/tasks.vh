@@ -11,6 +11,8 @@ endtask
 task drive_reset;
      wr_rst_n = 1'b0;
      rd_rst_n = 1'b0;
+     wr_en = 1'b0; 
+     rd_en = 1'b0;
      fork begin
          wait_wr_cycles(5);
          wr_rst_n = 1'b1;
@@ -40,14 +42,16 @@ task check_reset;
 endtask
 
 task drive_ens_and_data;
-    wait_wr_cycles(1);
     wr_en = 1'b0;
-    wait_wr_cycles(2);
+    wait_wr_cycles(1);
     wr_en = 1'b1;
+    wait_wr_cycles(2);
+    wr_en = 1'b0;
     wr_data = 32'd1;
-    wait_rd_cycles(1);
     rd_en = 1'b0;
-    wait_rd_cycles(2);
+    wait_rd_cycles(1);
     rd_en = 1'b1;
+    wait_rd_cycles(2);
+    rd_en = 1'b0;
 endtask
 
