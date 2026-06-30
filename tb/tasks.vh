@@ -14,13 +14,27 @@ task drive_reset;
      wr_en = 1'b0; 
      rd_en = 1'b0;
      fork begin
-         wait_wr_cycles(5);
+         wait_wr_cycles(3);
          wr_rst_n = 1'b1;
      end begin
          wait_rd_cycles(5);
          rd_rst_n = 1'b1;
      end join
      
+endtask
+
+task drive_ens_and_data;
+    wr_en = 1'b0;
+    wait_wr_cycles(2);
+    wr_en = 1'b1;
+    wait_wr_cycles(5);
+    wr_en = 1'b0;
+    wr_data = 32'd1;
+    rd_en = 1'b0;
+    wait_rd_cycles(1);
+    rd_en = 1'b1;
+    wait_rd_cycles(2);
+    rd_en = 1'b0;
 endtask
 
 task check_reset;
@@ -40,18 +54,3 @@ task check_reset;
         $display("[%0t] RESET CHECK PASSED", $time);
    
 endtask
-
-task drive_ens_and_data;
-    wr_en = 1'b0;
-    wait_wr_cycles(1);
-    wr_en = 1'b1;
-    wait_wr_cycles(2);
-    wr_en = 1'b0;
-    wr_data = 32'd1;
-    rd_en = 1'b0;
-    wait_rd_cycles(1);
-    rd_en = 1'b1;
-    wait_rd_cycles(2);
-    rd_en = 1'b0;
-endtask
-

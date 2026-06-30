@@ -39,11 +39,6 @@ module tb_a_fifo_top;
     
     initial begin
         drive_reset();
-        check_reset();
-        // fork
-        //     begin wait_wr_cycles(1); end
-        //     begin wait_rd_cycles(1); end
-        // join
         drive_ens_and_data();
     end
     
