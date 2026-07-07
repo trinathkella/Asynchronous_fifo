@@ -23,7 +23,6 @@ module a_fifo_top #(parameter D_WIDTH = 32, DEPTH = 8)
     fifo_mem(
         .wr_clk(wr_clk),
         .wr_en(wr_en),
-        .wr_rst_n(wr_rst_n),
         .full(full),
         .wr_addr(wr_addr[A_WIDTH - 1 : 0]),
         .rd_addr(rd_addr[A_WIDTH - 1 : 0]),
