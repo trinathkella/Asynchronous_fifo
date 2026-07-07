@@ -2,7 +2,7 @@
 
 /*THis module implements an asynchronous FIFO */
 
-module a_fifo_top #(parameter D_WIDTH = 32, DEPTH = 8)
+module a_fifo_top #(parameter D_WIDTH = 32, DEPTH = 32)
 (
     input                    wr_clk, rd_clk,
     input                    wr_rst_n, rd_rst_n,
