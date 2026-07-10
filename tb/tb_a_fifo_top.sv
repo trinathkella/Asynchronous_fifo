@@ -101,8 +101,25 @@ module tb_a_fifo_top;
         @(posedge rd_clk);
         rd_en = 1'b0;
         @(posedge rd_clk);
-        $finish();
         ////////////////////////////
+        
+        // Test Case 6 : Consecutive Writes and Reads
+        @(posedge wr_clk);
+        wr_data = 32'h00000001;
+        @(posedge rd_clk);
+        repeat(16)
+        begin
+            @(posedge wr_clk);
+            wr_data = wr_data + 1;
+            wr_en = 1'b1;
+            @(posedge wr_clk);
+            wr_en = 1'b0;
+            @(posedge rd_clk);
+            rd_en = 1'b1;
+            @(posedge rd_clk);
+            rd_en = 1'b0;
+        end
+        $finish();
     end
 
 endmodule
