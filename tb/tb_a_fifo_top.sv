@@ -119,6 +119,36 @@ module tb_a_fifo_top;
             @(posedge rd_clk);
             rd_en = 1'b0;
         end
+
+        // Test Case 7 : Reset in between writes and reads
+        @(posedge wr_clk);
+        wr_data = 32'hAAAA4444;
+        wr_en = 1'b1;
+        repeat(10)
+        begin
+            @(posedge wr_clk);
+            wr_data = wr_data + 1;
+            @(posedge rd_clk);
+            rd_en = 1'b1;
+        end
+        wr_rst_n = 1'b0;
+        wr_en = 1'b0;
+        rd_rst_n = 1'b0;
+        rd_en = 1'b0;
+        @(posedge wr_clk);
+        wr_rst_n = 1'b1;
+        @(posedge rd_clk);
+        rd_rst_n = 1'b1;
+        wr_data = 32'hBBBB5555;
+        wr_en = 1'b1;
+        repeat(5)
+        begin
+            @(posedge wr_clk);
+            wr_data = wr_data + 1; 
+            @(posedge rd_clk);
+            rd_en = 1'b1;
+        end 
+
         $finish();
     end
 
