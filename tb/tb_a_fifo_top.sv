@@ -34,26 +34,75 @@ module tb_a_fifo_top;
         rd_clk = 1;
     end
     
+    // Test Cases : 
+    // 1. Reset Check
+    // 2. Write 1 data
+    // 3. Read 1 data
+    // 4. Write until Full
+    // 5. Read until Empty
+    // 6. Consecutive Writes and Reads
+    // 7. Reset in between writes and reads
+
     initial begin
-        wr_rst_n = 1'b0; rd_rst_n = 1'b0; 
-        wr_en    = 1'b0; rd_en    = 1'b0; 
-        wr_data  = 32'd0;
-        @(posedge wr_clk);
+
+        // Test Case 1 : Reset Check
+        wr_rst_n = 1'b0;
+        rd_rst_n = 1'b0;
+        wr_en    = 1'b0;
+        rd_en    = 1'b0;
+        fork begin
+        repeat(5) @(posedge wr_clk);
         wr_rst_n = 1'b1;
-        @(posedge rd_clk);
+        end begin
+        repeat(5) @(posedge rd_clk);
         rd_rst_n = 1'b1;
-        // Case 3 : Consecutive write and read
-        repeat(10)
-        begin
-            @(posedge wr_clk);
-            wr_en = 1'b0;
-            @(posedge wr_clk);
-            wr_en = 1'b1;
+        end join
+        ////////////////////////////
+
+        // Test Case 2 : Write 1 data
+        @(posedge wr_clk);
+        wr_en = 1'b1;
+        wr_data = 32'h12234231;
+        repeat(1) @(posedge wr_clk);
+        wr_en = 1'b0;
+        ////////////////////////////
+
+        // Test Case 2 : Write 1 data
+        @(posedge wr_clk);
+        wr_en = 1'b1;
+        repeat(1) @(posedge wr_clk);
+        wr_en = 1'b0;
+        wr_data = 32'h11919026;
+        ////////////////////////////
+
+        // Test Case 3 : Read 1 data
+        @(posedge rd_clk);
+        rd_en = 1'b1;
+        repeat(2) @(posedge rd_clk);
+        rd_en = 1'b0;
+        ////////////////////////////
+
+        // Test Case 4 : Write until Full
+        repeat(2) @(posedge wr_clk);
+        repeat(DEPTH) begin
             wr_data = wr_data + 1;
-            @(posedge rd_clk);
-            rd_en = 1'b1;
+            wr_en = 1'b1;
+            @(posedge wr_clk);
         end
+        wr_en = 1'b0;
+        ////////////////////////////
+
+        // Test Case 5 : Read Till empty
+        repeat(2) @(posedge rd_clk);
+        repeat(DEPTH) begin
+            rd_en = 1'b1;
+            @(posedge rd_clk);
+        end
+        @(posedge rd_clk);
+        rd_en = 1'b0;
+        @(posedge rd_clk);
         $finish();
+        ////////////////////////////
     end
 
 endmodule
