@@ -42,6 +42,7 @@ module tb_a_fifo_top;
     // 5. Read until Empty
     // 6. Consecutive Writes and Reads
     // 7. Reset in between writes and reads
+    // 8.Try to write when full and read when empty
 
     initial begin
 
@@ -147,7 +148,9 @@ module tb_a_fifo_top;
             wr_data = wr_data + 1; 
             @(posedge rd_clk);
             rd_en = 1'b1;
-        end 
+        end
+
+        // Test Case 8 : Try to write when full and read when empty 
 
         $finish();
     end
