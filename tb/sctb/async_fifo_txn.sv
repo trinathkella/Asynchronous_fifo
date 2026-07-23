@@ -12,4 +12,16 @@ class transaction;
     		$time, tag, txn_wr_data, txn_wr_en, txn_rd_en, txn_full, txn_empty);
 	endfunction
 
+	// Constraints for writes
+	constraint c1
+	{
+		wr_t.txn_wr_en {0 := 20, 1 := 80};
+	}
+
+	constraint c2
+	{
+		wr_t.txn_wr_data dist {[100:1000]};
+	}
+	/////////////////////////////////////////
+
 endclass : transaction
